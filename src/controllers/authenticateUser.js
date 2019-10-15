@@ -1,35 +1,38 @@
 const createAuthToken = require('../utils/createAuthToken')
-const axios = require('axios')
+const User = require('../models/User')
 
 module.exports = async data => {
   const errHandler = err => {
     console.error('Error: ', err)
   }
+  console.log(data)
 
-  if (data.accessToken) {
-    const response = await axios
-      .get(
-        `https://graph.facebook.com/debug_token?input_token=${data.accessToken}&access_token=${apiToken}`
-      )
-      .catch(errHandler)
-
-    if (response.data.data.user_id) {
-      const token = createAuthToken(
-        {
-          player_id: response.data.data.user_id
-        },
-        '24h'
-      )
-
-      const payload = {
-        token
-      }
-      console.log(payload)
-      return payload
-    } else {
-      throw new Error('Access Token is Invalid')
+  const result = await User.findAll({
+    raw: true,
+    where: {
+      id: data.id,
+      username: data.username
     }
+  })
+
+  if (result[0].id) {
+    const token = createAuthToken(
+      {
+        id: data.id
+      },
+      false,
+      '24h'
+    )
+
+    const payload = {
+      token,
+      id: data.id
+    }
+
+    console.log(payload)
+
+    return payload
   } else {
-    throw new Error('Access Token is Missing')
+    throw new Error('id or name is wrong')
   }
 }
