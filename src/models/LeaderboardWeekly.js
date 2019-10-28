@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 
-module.exports = sequelize.define('leaderboard', {
+module.exports = sequelize.define('weekly_leaderboards', {
   id: {
     type: Sequelize.INTEGER(11),
     allowNull: false,

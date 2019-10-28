@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('leaderboards', {
+    return queryInterface.createTable('weekly_leaderboards', {
       id: {
         type: Sequelize.INTEGER(11),
         allowNull: false,
@@ -44,6 +44,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('leaderboards')
+    return queryInterface.dropTable('weekly_leaderboards')
   }
 }
